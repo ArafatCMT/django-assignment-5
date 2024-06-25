@@ -114,6 +114,7 @@ DATABASES = {
     'default': dj_database_url.config(
     # Replace this value with your local database's connection string.
     default='postgresql://library_system_318i_user:4Xcny7NGeLqYRb4QWeBfklL2fQo4nrwD@dpg-cptf7qdumphs73dj66eg-a.oregon-postgres.render.com/library_system_318i', 
+    conn_max_age=600
     )}
 
 
