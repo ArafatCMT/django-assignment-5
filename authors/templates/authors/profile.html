@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Library Management System</title>
+{% endblock %}
+
+{% block body %}
+<div class="col-8 mt-5 p-4 border border-secondary rounded" style="margin: auto; ">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            <h1>{{user.first_name}} {{user.last_name}}</h1>
+            <h5 class="mt-2">{{user.email}}</h5>
+            <h5 class="mt-5">Username: {{user.username}}</h5>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-center mt-4">My Books</h2>
+<div class="col-8 mt-3 p-4 border border-secondary rounded" style="margin: auto; ">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Transaction Id</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Cateory</th>
+            <th scope="col">Borrow Price</th>
+            <th scope="col">Borrow Date</th>
+            <th scope="col">Is_Borrowed</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for tuple in books %}
+            <tr>
+                <th scope="row">{{transaction_id}}</th>
+                <td>{{tuple.0.title}}</td>
+                <td>{{tuple.0.category}}</td>
+                <td>{{tuple.0.borrow_price}}</td>
+                <td>{{tuple.0.borrow_date}}</td>
+
+                {% if tuple.1 is True %}
+                <td><b>Yes</b></td>
+                {% else %}
+                <td><b>No</b></td>
+                {% endif %}
+
+                {% if tuple.1 is True %}
+                <td><a href="{% url 'return' tuple.0.id %}" class="btn btn-danger">Return</a></td>
+                {% else %}
+                <td><button class="btn btn-secondary" disabled>Returned</button></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+          
+        </tbody>
+      </table>
+</div>
+{% endblock %}

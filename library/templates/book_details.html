@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>Library Management System</title>
+{% endblock %}
+
+{% block body%}
+<div class="row">
+    <div class="col-lg-10 co-md-10 col-sm-10 m-auto">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center pt-5">
+          <img src="{{book.image.url}}" alt="" style="width: 100%" class="mt-4">
+      </div>
+  
+      <div class="col-lg-6 col-md-12 col-sm-12 p-5">
+          <h2><b class="text-danger">Title</b>: {{book.title}}</h2>
+          <hr>
+          <h5 style="line-height: 2;"><b class="text-primary">Description</b>: {{book.description}}</h5>
+          <hr>
+          <h5><b class="text-primary">Category</b>: <button class="btn btn-success btn-lg" disabled><b>{{book.category}}</b></button></h5>
+          <hr>
+          <h5 class=""><b class="text-danger">Borrow Price: {{book.borrow_price}}$</b></h5>
+          <hr>
+          {% if user.is_authenticated %}
+          
+          {% if balance >= book.borrow_price %}
+          <p class="text-center">
+            <a href="{% url 'borrow_book' book.id %}" class="btn btn-outline-secondary btn-lg" style="width: 90%;">Borrow Book</a>
+          </p>
+          {% else %}
+          <p class="text-center">
+            <button class="btn btn-outline-secondary btn-lg" style="width: 90%;" disabled>Borrow Book</button>
+          </p>
+         {% endif %}
+          {% endif %}
+      </div>
+      </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-lg-10 co-md-10 col-sm-10 m-auto">
+    <div class="row">
+      <div class="col-lg-5 col-md-12 col-sm-12 border bg-success p-3 mx-5 rounded">
+        <!-- show comments -->
+        <div style="width: 100%; margin: auto" class="mt-3">
+          <div class="card p-3">
+            <h4>Total Reviews : {{comments | length}}</h4>
+            {% for cmnt in comments %}
+            <hr />
+            <div class="card-body">
+              <p><b>{{cmnt.name}}</b>  <small>{{cmnt.date}}</small></p>
+              <p>{{cmnt.body}}</p>
+            </div>
+            <hr />
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- comment form -->
+      {% if user.is_authenticated %}
+      
+      {% if book.id in borrow_bookId %}
+      <div class="col-lg-5 col-md-12 col-sm-12 border bg-primary p-3 mx-5 rounded">
+          <div style="width: 100%; margin: auto" class="mt-3">
+          <h4>Add your Review...</h4>
+          <div class="card mt-3 p-3">
+            <form method="post">
+              {% csrf_token %} 
+              {{comment_form | crispy}}
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+          </div>
+          </div>
+      </div>
+          {% endif %}
+
+          {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

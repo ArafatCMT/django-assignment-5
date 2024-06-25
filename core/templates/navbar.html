@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'deposit' %}">Deposit</a>
+        </li>
+        {% endif %}
+        
+      </ul>
+      <div class="form-inline my-2 my-lg-0">
+        {% if user.is_authenticated %}
+        <h5 class="mr-4 text-white" style="font-size: 18px; font-weight: bolder;">Welcome, {{ user.first_name}} (balance: {{user.account.balance}})</h5>
+        <a class="text-white btn btn-success mx-2" href="{% url 'profile' %}">Profile</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger mx-1">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'register' %}" class="btn btn-success mx-2">Register</a>
+        <a href="{% url 'login' %}" class="btn btn-primary mx-1">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+<title>Library Management System</title>
+{% endblock %}
+
+{% block body %}
+<div class="col-lg-6 col-md-8 col-sm-10 mx-auto mt-3 border bg-primary" style="border-radius: 10px;">
+    <form action="" method="post" style="width: 70%; margin: auto;" novalidate class="mt-4">
+        <h1 class="text-center">Registration Form</h1>
+        <hr>
+        {% csrf_token %}
+        <!-- {{form | crispy}} -->
+         {% for fm in form %}
+         {{fm.label_tag}}
+         {{fm}}
+         <h6 class="text-danger">{{fm.errors | striptags }}</h6>
+         <br>
+         {% endfor %}
+         <button type="submit" class="btn btn-warning">Submit</button>
+    </form>
+    <br><br>
+</div>
+{% endblock %}
